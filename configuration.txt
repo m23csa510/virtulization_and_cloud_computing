@@ -1,0 +1,53 @@
+1. General Settings
+Name: UserVM, ProductVM, OrderVM
+Type: Linux > Ubuntu (64-bit)
+Memory: 2048 MB (2GB)
+Processor: 1 CPU (default)
+Firmware: UEFI (with Secure Boot disabled)
+
+2. Storage Settings
+Hard Disk:
+Controller: SATA (default)
+Storage Type: Dynamically allocated VHD
+Size: 25 GB
+CD/DVD Drive:
+Controller: IDE
+Media: Ubuntu ISO (during installation)
+Mode: Read-only
+
+3. Network Settings
+Adapter 1 (NAT):
+Attached to: NAT
+Purpose: Internet access
+Adapter 2 (Host-only):
+Attached to: Host-only Network (e.g., vboxnet0)
+Purpose: Inter-VM communication
+
+4. Advanced Settings
+Shared Clipboard: Bidirectional (requires Guest Additions)
+Drag and Drop: Bidirectional (requires Guest Additions)
+
+5. Microservice Deployment
+Project Structure:
+mkdir ~/microservices && cd ~/microservices
+
+python3 -m venv venv 
+
+source venv/bin/activate  
+
+pip install fastapi uvicorn  
+
+6. Starting Services
+Activate Environment:
+source venv/bin/activate  
+
+Run Services:
+python user_service.py  # UserVM  
+python product_service.py  # ProductVM  
+python order_service.py &  # OrderVM (background)  
+
+7. Testing Communication
+From OrderVM:
+
+curl http://192.168.56.104:8000/orders  
+
